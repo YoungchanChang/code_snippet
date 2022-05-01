@@ -2,9 +2,9 @@
 
 if __name__ == "__main__":
 
-    ROW = 3
-    COLUMN = 4
+    row = 3
+    column = 4
 
-    for EACH_ROW in range(0, ROW, 1):
-        for EACH_COLUMN in range(0, COLUMN, 1):
-            print(EACH_ROW, EACH_COLUMN)
+    for each_row in range(0, row, 1):
+        for each_column in range(0, column, 1):
+            print(each_row, each_column)
