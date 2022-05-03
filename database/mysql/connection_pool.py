@@ -26,19 +26,19 @@ def get_connection():
     return MYSQL_CONN
 
 
-def create_user_by_single_conn():
+def create_user_by_single_conn(name: str, email: str):
     conn = get_connection()
     with conn.cursor() as cursor:
         SQL = f"""
-        INSERT INTO user_db (user_name, user_email) VALUES ('{fake.name()}', '{fake.ascii_safe_email()}');
+        INSERT INTO user_db (user_name, user_email) VALUES ('{name}', '{email}');
         """
         cursor.execute(SQL)
     conn.commit()
 
 
-def create_user_by_pool():
+def create_user_by_pool(name: str, email: str):
     with Session(autocommit=False, autoflush=False, bind=user_analyzed_engine) as session:
-        SQL = f"INSERT INTO user_db (user_name, user_email) VALUES ('{fake.name()}', '{fake.ascii_safe_email()}');"
+        SQL = f"INSERT INTO user_db (user_name, user_email) VALUES ('{name}', '{email}');"
         row_count = session.execute(SQL).rowcount
         session.commit()
         return row_count
@@ -48,11 +48,11 @@ if __name__ == "__main__":
     st = time.process_time()
 
     for i in range(0, 1000, 1):
-        create_user_by_single_conn()
+        create_user_by_single_conn(fake.name(), fake.ascii_safe_email())
     print("not_connection_pool", time.process_time()-st)
 
     st = time.process_time()
     for i in range(0, 1000, 1):
-        create_user_by_pool()
+        create_user_by_pool(fake.name(), fake.ascii_safe_email())
 
     print("connection_pool", time.process_time() - st)
