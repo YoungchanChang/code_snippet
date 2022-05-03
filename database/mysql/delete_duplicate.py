@@ -1,14 +1,10 @@
 import pymysql
+from database.mysql import config_db
+
 
 def conn_mysqldb():
-    MYSQL_HOST = 'localhost'
     MYSQL_CONN = pymysql.connect(
-        host=MYSQL_HOST,
-        port=3306,
-        user='root',
-        passwd='1234',
-        db='test_database',
-        charset='utf8'
+        **config_db.TEST_DB_INFO
     )
     if not MYSQL_CONN.open:
         MYSQL_CONN.ping(reconnect=True)
