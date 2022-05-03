@@ -1,6 +1,7 @@
 """
 connection pool : https://docs.sqlalchemy.org/en/14/core/pooling.html
 session : https://docs.sqlalchemy.org/en/14/orm/session_basics.html
+wait_timeout : https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html
 """
 
 import time
