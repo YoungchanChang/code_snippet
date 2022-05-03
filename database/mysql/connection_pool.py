@@ -45,14 +45,14 @@ def create_user_by_pool(name: str, email: str):
 
 
 if __name__ == "__main__":
-    st = time.process_time()
+    st = time.time()
 
-    for i in range(0, 1000, 1):
+    for i in range(0, 10, 1):
         create_user_by_single_conn(fake.name(), fake.ascii_safe_email())
-    print("not_connection_pool", time.process_time()-st)
+    print("not_connection_pool", time.time()-st)
 
-    st = time.process_time()
-    for i in range(0, 1000, 1):
+    st = time.time()
+    for i in range(0, 10, 1):
         create_user_by_pool(fake.name(), fake.ascii_safe_email())
 
-    print("connection_pool", time.process_time() - st)
+    print("connection_pool", time.time() - st)
