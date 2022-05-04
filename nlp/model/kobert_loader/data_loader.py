@@ -86,3 +86,10 @@ if __name__ == "__main__":
     print(checkpoint_dir)
     latest = tf.train.latest_checkpoint(checkpoint_dir)
     kobert_model.load_weights(latest)
+
+    with open("text_data.txt", "r", encoding='utf-8-sig') as file:
+        # "\n표시 없이 데이터를 한줄씩 리스트로 읽음"
+        sample = file.read().splitlines()
+
+        for sample_item in sample:
+            print(sample_item)
