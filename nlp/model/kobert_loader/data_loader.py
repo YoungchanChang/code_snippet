@@ -1,12 +1,14 @@
 # !pip install transformers==4.4.2
 # !pip install sentencepiece
 # !pip install tensorflow_addons
+
+import os
+import csv
 from transformers import *
 import tensorflow as tf
 import tensorflow_addons as tfa
 import numpy as np
-from model.tokenization_kobert import KoBertTokenizer
-import os
+from tokenization_kobert import KoBertTokenizer
 
 
 max_seq_len = 64
@@ -62,7 +64,7 @@ def sentence_prediction(example):
     return [input_ids, attention_masks, token_type_ids]
 
 
-def sick_evaluation_predict(sentence):
+def evaluation_predict(sentence):
     data_x = sentence_prediction(sentence)
     predict = kobert_model.predict(data_x)
 
@@ -81,15 +83,26 @@ def sick_evaluation_predict(sentence):
 
 if __name__ == "__main__":
     kobert_model = create_model()
-    checkpoint_path = "model/bert_app/bert-base"
+    path = 'checkpoint'
+    checkpoint_path = f"{path}/bert-base"
     checkpoint_dir = os.path.dirname(checkpoint_path)
     print(checkpoint_dir)
     latest = tf.train.latest_checkpoint(checkpoint_dir)
     kobert_model.load_weights(latest)
 
-    with open("text_data.txt", "r", encoding='utf-8-sig') as file:
+
+    tmp_data = []
+    with open("test_data.txt", "r", encoding='utf-8-sig') as file:
         # "\n표시 없이 데이터를 한줄씩 리스트로 읽음"
         sample = file.read().splitlines()
 
         for sample_item in sample:
-            print(sample_item)
+            predict_answer, predict_value = evaluation_predict(sample_item)
+            tmp_data.append([sample_item, predict_answer, predict_value])
+
+    with open('test_result.csv', 'w', encoding='utf-8-sig', newline='') as writer_csv:
+
+        writer = csv.writer(writer_csv, delimiter=',')
+
+        for tmp_item in tmp_data:
+            writer.writerow(tmp_item)
