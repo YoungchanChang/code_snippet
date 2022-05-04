@@ -98,7 +98,7 @@ if __name__ == "__main__":
 
         for sample_item in sample:
             predict_answer, predict_value = evaluation_predict(sample_item)
-            tmp_data.append([sample_item, predict_answer, predict_value])
+            tmp_data.append([sample_item, predict_answer, round(float(predict_value[0]), 3)])
 
     with open('test_result.csv', 'w', encoding='utf-8-sig', newline='') as writer_csv:
 
