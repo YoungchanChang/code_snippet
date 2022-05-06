@@ -15,10 +15,14 @@ def get_que_template():
     image_que = deque(image)
 
     while image_que:
-        image_que_item = image_que.popleft() # 큐를 하나 뽑는다.
+        # 1. 큐를 하나 뽑는다.
+        image_que_item = image_que.popleft()
 
-        if image_que_item < 1: # 큐에 조건문을 건다.
-            image_que.append(image_que_item) # 큐에 조건을 추가한다.
+        # 2. 큐에 새로운 데이터를 넣을 조건문 설정
+        if image_que_item < 1:
+
+            # 3. 큐에 데이터 삽입
+            image_que.append(image_que_item)
 
 
 if __name__ == "__main__":
