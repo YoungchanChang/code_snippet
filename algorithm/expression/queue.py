@@ -1,5 +1,11 @@
 """
+# queue와 list의 차이
+queue와 list의 가장 큰 차이는 첫번째 원소를 추출하는 방식이다.
+queue는 popleft()메소드를 사용하여 시간복잡도가 O(1)으로 완료될 수 있다.
+반면, list는 O(N)의 시간 복잡도가 든다.
 
+# queue의 사용
+popleft()에 첫 원소가 추출되는 기능을 응용하여 첫번째 원소의 순서를 추출하는 로직에 사용할 수 있다.
 """
 
 from collections import deque
