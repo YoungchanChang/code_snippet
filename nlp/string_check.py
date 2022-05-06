@@ -69,13 +69,11 @@ def to_jaso(s):
 
     return ''.join(result)
 
-from unicode import *
 
 if __name__ == "__main__":
     print(to_jaso("호잉루"))
     jason_token = to_jaso("호잉루")
     print(jason_token)
-    print(join_jamos(jason_token))
     print(to_jaso("호잉루"))
     small = "동해물".split()
     big = "동해물 과 백두산이".split()
