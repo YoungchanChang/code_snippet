@@ -3,7 +3,7 @@ from dacite import from_dict
 from flask import Blueprint, make_response, jsonify, request
 
 from model import UserInfo
-from template.mvc.control import sign_up, UserValueException
+from flask_factory.mvc.control import sign_up, UserValueException
 
 from utility import SlackAlarm
 
