@@ -17,3 +17,8 @@ def get_ip_addr():
 def delete_number():
     """숫자. 형태 제거시 사용"""
     only_number_delete = r"[0-9]+."
+
+
+def bracket_english():
+    """괄호 안에 있는 영어 정규식"""
+    english_in_bracket = r"\([a-zA-Z ]+\)"
