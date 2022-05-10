@@ -1,0 +1,23 @@
+# 주요 근육
+팩토럴메이저(Pectoral Major) : 대흉근
+팩토럴마이너(Pectoral Minor) : 소흉근
+트레피지어스(Trapizius) : 승모근
+델토이드(Deltoid) : 삼각근
+바이셉스 브레키아이(Biceps brachii) : 상완 이두근
+브레키알리스(Brachialis) : 상완근
+브레키오래디알리스(Brachioradialis) : 상완요골근대
+트라이셉스 브레키아이(Triceps brachii) : 상완 삼두근
+라티씨머스 돌시(Latissimus Dorsi) : 광배근 (Lats, 랫)
+글러티어스(Gluteus) : (대)둔근
+쿼트러셉스(Quadriceps) : 대퇴사두근
+렉터스 패모리스(Rectus femoris) : 대퇴직근
+바스터스 레터럴리스(Vastus lateralis) : 외측광근
+바스터스 미디얼리스(Vastus medialis) : 내측광근
+햄스트링(Hamstrings) : 술굴곡근
+바이셉스 페모리스(Biceps femoris) : 대퇴이두근
+머스컬러스 어듀터 매그너스(Musculus addutor magnus) : 대내전근
+일렉터 스파이니(Erector spinae) : 척추기립근
+서래터스 앤터리어(Serratus anterior) : 전거근
+익스터널 오블리크 앱도미니스(External oblique abdominis) : 외복사근
+렉터스 앱도미니스(Rectus abdominis) : 복직근
+솔리어스(Soleus) : 가자미근
