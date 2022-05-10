@@ -6,7 +6,7 @@ from typing import Generator
 
 from mecab import MeCabError
 from python_mecab_ner.domain.mecab_domain import MecabWordFeature
-from ..unicode import *
+from unicode import *
 
 
 def subs_str_finder(control_s, sub_str):
@@ -274,6 +274,6 @@ if __name__ == "__main__":
             data = sample_item + "," + mecab_word + "\n"
             test_list.append(data)
 
-    with open("test_write.txt", "w", encoding='UTF8') as file:
+    with open("test_write.txt", "a", encoding='UTF8') as file:
         for test_item in test_list:
             file.write(test_item)
