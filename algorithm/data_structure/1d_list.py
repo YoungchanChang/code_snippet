@@ -11,6 +11,13 @@ ref : https://docs.python.org/3/tutorial/datastructures.html
 from collections import deque
 
 
+def list_contain_list():
+    """리스트 안에 다른 리스트가 포함됬는지 확인하는 함수"""
+    big = []
+    small = []
+    result = all(elem in big for elem in small) # To check if big contains ALL elements in small
+    result = any(elem in big for elem in small) # To check if small contains ANY elements in big
+
 def list_to_dict():
     """2차원 리스트에 2개의 데이터가 쌍으로 있으면 dictionary형으로 바로 변환할 수 있다."""
     specs = [['toy', '70'], ['snack', '200']]
