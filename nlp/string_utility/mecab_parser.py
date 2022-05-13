@@ -3,10 +3,30 @@ import copy
 import _mecab
 from collections import namedtuple
 from typing import Generator
+from dataclasses import dataclass
+from typing import Optional
+
+from unicode import *
 
 from mecab import MeCabError
-from python_mecab_ner.domain.mecab_domain import MecabWordFeature
-from unicode import *
+
+@dataclass
+class MecabWordFeature:
+    word: str
+    pos: str
+    semantic: str
+    has_jongseong: bool
+    reading: str
+    type : str
+    start_pos: str
+    end_pos: str
+    expression: str
+    space: Optional[int] = None
+    mecab_token: Optional[int] = None
+    mecab_compound: Optional[int] = None
+    begin: Optional[int] = None
+    end: Optional[int] = None
+    label: Optional[str] = "O"
 
 
 def subs_str_finder(control_s, sub_str):
@@ -261,7 +281,7 @@ class MecabParser:
 
         return " ".join([x[self.FIRST_WORD] for x in list(self.gen_mecab_compound_token_feature())])
 
-
+import csv
 if __name__ == "__main__":
 
     test_list = []
@@ -271,9 +291,10 @@ if __name__ == "__main__":
         for sample_item in sample:
             mecab_parse_results = MecabParser(sentence=sample_item).gen_mecab_compound_token_feature()
             mecab_word = " ".join([x[0] for x in mecab_parse_results])
-            data = sample_item + "," + mecab_word + "\n"
-            test_list.append(data)
+            test_list.append([mecab_word])
 
-    with open("test_write.txt", "a", encoding='UTF8') as file:
+    with open('tmp_csv.csv', 'w', encoding='utf-8-sig', newline='') as writer_csv:
+
+        writer = csv.writer(writer_csv, delimiter=',')
         for test_item in test_list:
-            file.write(test_item)
+            writer.writerow(test_item)
