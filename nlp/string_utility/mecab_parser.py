@@ -289,9 +289,9 @@ if __name__ == "__main__":
     with open("test_read.txt", "r", encoding='utf-8-sig') as file:
         sample = file.read().splitlines()
         for sample_item in sample:
-            mecab_parse_results = MecabParser(sentence=sample_item).gen_mecab_compound_token_feature()
-            mecab_word = " ".join([x[0] for x in mecab_parse_results])
-            test_list.append([mecab_word])
+            mecab_parse_results = list(MecabParser(sentence=sample_item).gen_mecab_compound_token_feature())
+            mecab_word = [(x[0], x[1].pos) for x in mecab_parse_results]
+            test_list.append([sample_item, mecab_word])
 
     with open('tmp_csv.csv', 'w', encoding='utf-8-sig', newline='') as writer_csv:
 
