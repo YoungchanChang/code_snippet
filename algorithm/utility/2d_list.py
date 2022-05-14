@@ -1,5 +1,17 @@
 
 
+def rotate(key):
+    # *key는 껍질(Unpacking)을 벗겨내는 역할을 합니다. [] () {}
+    # [[0, 0, 0], [1, 0, 0], [0, 1, 1]] key
+    # [0, 0, 0], [1, 0, 0], [0, 1, 1] *key
+    # (0, 1, 0), (0, 0, 1), (0, 0, 1) zip(*key)
+    # (0, 1, 0), (1, 0, 0), (1, 0, 0) reversed
+    # [0, 1, 0], [1, 0, 0], [1, 0, 0] list
+    # [[0, 1, 0], [1, 0, 0], [1, 0, 0]] []
+
+    return [list(reversed(i)) for i in zip(*key)]
+
+
 def create_empty_sec_array():
     """빈 2차원 배열 생성"""
     lst = [[0] * 5 for __ in range(5)]
