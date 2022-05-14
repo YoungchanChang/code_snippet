@@ -1,6 +1,19 @@
 import itertools
 
 
+def zip_vertical():
+    """
+    2차원 리스트에서 언패킹 zip을 하면, 세로 문자열 기준으로 배열이 다시 생성
+    2d_list.rotate() 참
+    """
+    board = [[1, 2, 3],
+             [4, 5, 6],
+             [7, 8, 0]
+             ]
+    # *board [1, 2, 3], [4, 5, 6], [7, 8, 0]
+    sum = [i for i in zip(*board) if sum(i) == 0]
+
+
 # zip으로 묶을 때, 빈 값 사용
 print(list(itertools.zip_longest('ABCD', 'xy', fillvalue='-')))
 
