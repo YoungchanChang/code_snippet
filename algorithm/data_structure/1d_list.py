@@ -11,6 +11,11 @@ ref : https://docs.python.org/3/tutorial/datastructures.html
 from collections import deque
 
 
+def list_copy():
+    lock = [[], [], []]
+    _lock = [item[:] for item in lock]
+
+
 def list_contain_list():
     """리스트 안에 다른 리스트가 포함됬는지 확인하는 함수"""
     big = []
