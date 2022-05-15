@@ -13,6 +13,10 @@ def zip_vertical():
     # *board [1, 2, 3], [4, 5, 6], [7, 8, 0]
     sum = [i for i in zip(*board) if sum(i) == 0]
 
+    # 응용 : 세로열 특정 값만 1로 체크.
+    _visited = [item[:] for item in visited]
+    _visited[row] = [1] * len(_visited)
+    _visited = [[1 if idx_visit == idx else x for x in i] for idx_visit, i in enumerate(zip(*_visited))]
 
 # zip으로 묶을 때, 빈 값 사용
 print(list(itertools.zip_longest('ABCD', 'xy', fillvalue='-')))
