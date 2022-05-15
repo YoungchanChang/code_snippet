@@ -28,6 +28,12 @@ def check_sec_array():
             print(each_row, each_column)
 
 
+    # 정사각형
+    n = 4
+    for row in range(n):
+        for column in range(n):
+            print(row, column)
+
 if __name__ == "__main__":
 
     ...
