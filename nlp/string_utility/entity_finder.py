@@ -29,7 +29,7 @@ intent_not = {
 }
 
 
-sample_item = "나는 팔이 아프다"
+sample_item = "나는 팔이 괜찮다"
 mecab_parse_results = list(MecabParser(sentence=sample_item).gen_mecab_compound_token_feature())
 mecab_word = [(x[0], x[1].pos) for x in mecab_parse_results]
 
@@ -51,13 +51,13 @@ for mecab_parse_item in mecab_parse_results:
     word_pos = (mecab_word, mecab_parse_item[1].pos)
 
 
-    intent_val = intent.get(word_pos, None)
+    intent_val = intent_main.get(word_pos, None)
     if intent_val: # 인텐트 값 저장
         for intent_cat_val in intent_val: # 2차원 배열 2중 탐색
             for entity_attr_dict in entity_attr_save:
                 entity_cat = entity_attr_dict.get('category', None) # 인텐트와 엔티티 값 검증 로직
-                if (entity_cat == intent_cat_val[0]) and (entity_attr_dict.get('idx')[0] < mecab_compound_idx):
-                    entity_attr_dict["intent"] = intent_cat_val[1]
+                if (entity_cat == intent_cat_val[1]) and (entity_attr_dict.get('idx')[0] < mecab_compound_idx):
+                    entity_attr_dict["intent"] = intent_cat_val[0]
                     entity_attr_dict['idx'][1] = mecab_compound_idx
 
 
@@ -71,8 +71,8 @@ for mecab_parse_item in mecab_parse_results:
         for intent_sub_cat_val in intent_sub_val: # 2차원 배열 2중 탐색
             for entity_attr_dict in entity_attr_save:
                 entity_cat = entity_attr_dict.get('category', None) # 인텐트와 엔티티 값 검증 로직
-                if (entity_cat == intent_sub_cat_val[0]) and (entity_attr_dict.get('idx')[0] < mecab_compound_idx < entity_attr_dict.get('idx')[1]):
-                    entity_attr_dict["intent_sub"] = intent_sub_cat_val[1]
+                if (entity_cat == intent_sub_cat_val[1]) and (entity_attr_dict.get('idx')[0] < mecab_compound_idx < entity_attr_dict.get('idx')[1]):
+                    entity_attr_dict["intent_sub"] = intent_sub_cat_val[0]
                     entity_attr_dict['idx'][1] = mecab_compound_idx
 
     intent_not_val = intent_not.get(word_pos, None)
