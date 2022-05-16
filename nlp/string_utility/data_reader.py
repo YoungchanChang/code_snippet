@@ -39,6 +39,10 @@ def extract_entity(mecab_word_found):
             word, mecab_word = item.split(",")
 
             mecab_word_found_result = mecab_word_finder(copied_mecab_word_found, mecab_word) # FIND string value
+
+            if not mecab_word_found_result:
+                continue
+
             copied_mecab_word_found, word_idx = mecab_word_found_result
             if mecab_word_found_result and (mecab_word_found[word_idx][1] not in FORBIDDEN_POS): # REPLACE if exists
                 yield word, stem, word_idx
