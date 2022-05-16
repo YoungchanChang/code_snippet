@@ -32,30 +32,29 @@ def extract_entity(mecab_word_found):
     for i in read_entity(DATA_PATH):
         item, stem = i
 
-        if item == EOF: # CHECK if one category is finished
-            copied_mecab_word_found = tmp_mecab_word_found # COPY when category over
+        try:
+            if item == EOF: # CHECK if one category is finished
+                copied_mecab_word_found = tmp_mecab_word_found # COPY when category over
 
-        elif item.count(",") == 1:
-            word, mecab_word = item.split(",")
+            elif item.count(",") == 1:
+                word, mecab_word = item.split(",")
 
-            mecab_word_found_result = mecab_word_finder(copied_mecab_word_found, mecab_word) # FIND string value
+                mecab_word_found_result = mecab_word_finder(copied_mecab_word_found, mecab_word) # FIND string value
 
-            if not mecab_word_found_result:
-                continue
+                copied_mecab_word_found, word_idx = mecab_word_found_result
+                if mecab_word_found_result and (mecab_word_found[word_idx][1] not in FORBIDDEN_POS): # REPLACE if exists
+                    yield word, stem, word_idx
 
-            copied_mecab_word_found, word_idx = mecab_word_found_result
-            if mecab_word_found_result and (mecab_word_found[word_idx][1] not in FORBIDDEN_POS): # REPLACE if exists
-                yield word, stem, word_idx
+            elif item.count(",") == 2:
+                word, mecab_word, meta_info = item.split(",")
 
-        elif item.count(",") == 2:
-            word, mecab_word, meta_info = item.split(",")
+                mecab_word_found_result = mecab_word_finder(copied_mecab_word_found, mecab_word) # FIND string value
+                copied_mecab_word_found, word_idx = mecab_word_found_result
 
-            mecab_word_found_result = mecab_word_finder(copied_mecab_word_found, mecab_word) # FIND string value
-            copied_mecab_word_found, word_idx = mecab_word_found_result
-
-            if mecab_word_found_result: # REPLACE if exists
-                yield word, stem, meta_info, word_idx
-
+                if mecab_word_found_result: # REPLACE if exists
+                    yield word, stem, meta_info, word_idx
+        except TypeError as te:
+            ...
 
 if __name__ == "__main__":
 
