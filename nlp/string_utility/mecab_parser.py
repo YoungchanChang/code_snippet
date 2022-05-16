@@ -294,9 +294,9 @@ class MecabParser:
 
         return " ".join([x[self.FIRST_WORD] for x in list(self.gen_mecab_compound_token_feature())])
 
-    def get_mecab_words(self) -> str:
+    def get_mecab_words(self) -> list:
         """mecab으로 분해된 단어들 반환"""
-        mecab_words = " ".join([x[0] for x in self.gen_mecab_compound_token_feature()])
+        mecab_words = [x for x in self.gen_mecab_compound_token_feature()]
         return mecab_words
 
 import csv
