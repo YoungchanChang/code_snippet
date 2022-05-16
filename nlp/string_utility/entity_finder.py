@@ -35,6 +35,7 @@ sample_item = "나는 팔이 너무 아프지 않다"
 mecab_parse_results = list(MecabParser(sentence=sample_item).gen_mecab_compound_token_feature())
 mecab_word = [(x[0], x[1].pos) for x in mecab_parse_results]
 
+
 entity_list = list(extract_entity(mecab_word))
 entity_attr_save = []
 
@@ -46,23 +47,25 @@ for entity_item in entity_list:
         "idx" : [entity_item[2], None],
     })
 
+
 for mecab_parse_item in mecab_parse_results:
 
     mecab_compound_idx = mecab_parse_item[1].mecab_compound
     mecab_word = mecab_parse_item[0]
     word_pos = (mecab_word, mecab_parse_item[1].pos)
 
-
     intent_val = intent_main.get(word_pos, None)
     if intent_val: # 인텐트 값 저장
-        for intent_cat_val in intent_val: # 2차원 배열 2중 탐색
+        flag = True
+        for intent_cat_val in sorted(intent_val): # 2차원 배열 2중 탐색
             for entity_attr_dict in entity_attr_save:
                 entity_cat = entity_attr_dict.get('category', None) # 인텐트와 엔티티 값 검증 로직
                 if (entity_cat == intent_cat_val[1]) and (entity_attr_dict.get('idx')[0] < mecab_compound_idx):
                     entity_attr_dict["intent"] = intent_cat_val[0]
                     entity_attr_dict['idx'][1] = mecab_compound_idx
+                    flag = False
 
-            if intent_cat_val[1] == "uncomfortable":
+            if intent_cat_val[1] == "uncomfortable" and flag:
                 entity_attr_save.append({
                     "category": "uncomfortable",
                     "intent": intent_cat_val[0],
@@ -70,7 +73,6 @@ for mecab_parse_item in mecab_parse_results:
                 })
 
 
-entity_attr_save = sorted(entity_attr_save, key=lambda d: d['intent'])
 
 for mecab_parse_item in mecab_parse_results:
     mecab_compound_idx = mecab_parse_item[1].mecab_compound
