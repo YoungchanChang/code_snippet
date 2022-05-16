@@ -56,10 +56,41 @@ def extract_entity(mecab_word_found):
         except TypeError as te:
             ...
 
+
+def read_attribute(suffix="main"):
+    """데이터 딕셔너리에서 속성값 읽는 함수"""
+    ATTRIBUTE_SEPARATOR = "#"
+    for i in Path.iterdir(DATA_PATH):
+        if (i.suffix == ".txt") and (i.stem.split("_")[1] == suffix):
+            with open(str(i.parent) + "/" + str(i.name), "r", encoding='utf-8-sig') as file:
+                # "\n표시 없이 데이터를 한줄씩 리스트로 읽음"
+                sample = file.read().splitlines()
+
+                title = None
+                return_data = []
+                for sample_item in sample:
+                    if ATTRIBUTE_SEPARATOR in sample_item:
+                        title = sample_item.replace(ATTRIBUTE_SEPARATOR, "")
+                    elif sample_item.strip() != '':
+                        return_data.append((title, sample_item, i.stem)) # 소제목 로드시 문자열 비교 위해 필요
+
+            return_data = sorted(return_data, key=lambda x : len(x[1]), reverse=True)
+            yield from return_data # Return Iterator
+
+
 if __name__ == "__main__":
 
     mecab_word_found = MecabParser(sentence="어 그니까 팔이 아파").get_mecab_words()
     insert_mecab_word = [(x[0], x[1].pos) for x in mecab_word_found]
 
     entity_list = list(extract_entity(insert_mecab_word))
-    x = 4
+
+    intent_main = {}
+    for i in read_attribute(suffix="main"):
+        intent_main[eval(i[1])] = [(i[0], i[2].split("_")[0])]
+
+    intent_sub = {}
+    for i in read_attribute(suffix="sub"):
+        intent_sub[eval(i[1])] = [(i[0], i[2].split("_")[0])]
+    print(intent_main)
+    print(intent_sub)
