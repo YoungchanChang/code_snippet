@@ -31,7 +31,7 @@ intent_not = {
 }
 
 
-sample_item = "나는 팔이 아파서 병원에 갔어"
+sample_item = "팔 괜찮아"
 mecab_parse_results = list(MecabParser(sentence=sample_item).gen_mecab_compound_token_feature())
 mecab_word = [(x[0], x[1].pos) for x in mecab_parse_results]
 
@@ -93,12 +93,12 @@ for mecab_parse_item in mecab_parse_results:
     if intent_not_val:
         for entity_attr_dict in entity_attr_save:
             entity_cat = entity_attr_dict.get('category', None) # 인텐트와 엔티티 값 검증 로직
-            if entity_attr_dict.get('idx')[0] < mecab_compound_idx and intent_not_val[0] == 'B':
+            if entity_attr_dict.get('idx')[0] < mecab_compound_idx < entity_attr_dict.get('idx')[1] + 3 and intent_not_val[0] == 'B':
                 entity_attr_dict["intent"] = entity_attr_dict["intent"][:-1] + "지"
                 intent_replace = entity_attr_dict.get("intent_sub", "") + " " + entity_attr_dict["intent"] + " " + intent_not_val[1]
                 entity_attr_dict["intent"] = intent_replace.lstrip()
                 entity_attr_dict["not"] = True
-            elif entity_attr_dict.get('idx')[0] < mecab_compound_idx and intent_not_val[0] == 'F':
+            elif entity_attr_dict.get('idx')[0] < mecab_compound_idx < entity_attr_dict.get('idx')[1] and intent_not_val[0] == 'F':
                 intent_replace = entity_attr_dict.get("intent_sub", "") + " " + intent_not_val[1] + " " + entity_attr_dict["intent"]
                 entity_attr_dict["intent"] = intent_replace.lstrip()
                 entity_attr_dict["not"] = True
