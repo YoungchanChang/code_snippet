@@ -6,6 +6,7 @@ from typing import Generator
 from dataclasses import dataclass
 from typing import Optional
 
+from token_utility import *
 from unicode import *
 
 from mecab import MeCabError
@@ -28,6 +29,18 @@ class MecabWordFeature:
     end: Optional[int] = None
     label: Optional[str] = "O"
 
+
+def mecab_word_finder(parse_results, mecab_word):
+    """메캅으로 분해된 결과에서 값 찾기"""
+    is_contain = contains(mecab_word.split(), parse_results.split())
+    mecab_find_idx = parse_results.find(mecab_word)
+    if is_contain and (mecab_find_idx != -1):
+        for mecab_item in mecab_word.split():
+            mecab_find_idx = parse_results.find(mecab_item)
+            parse_results = (delete_pattern_from_string(parse_results, mecab_item, mecab_find_idx, nofail=False))
+        return parse_results, is_contain[0]
+    else:
+        return False
 
 def subs_str_finder(control_s, sub_str):
     """
@@ -280,6 +293,11 @@ class MecabParser:
             return [x[self.FIRST_WORD] for x in list(self.gen_mecab_compound_token_feature())]
 
         return " ".join([x[self.FIRST_WORD] for x in list(self.gen_mecab_compound_token_feature())])
+
+    def get_mecab_words(self) -> str:
+        """mecab으로 분해된 단어들 반환"""
+        mecab_words = " ".join([x[0] for x in self.gen_mecab_compound_token_feature()])
+        return mecab_words
 
 import csv
 if __name__ == "__main__":
