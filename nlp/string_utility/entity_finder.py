@@ -70,6 +70,7 @@ for mecab_parse_item in mecab_parse_results:
                 })
 
 
+entity_attr_save = sorted(entity_attr_save, key=lambda d: d['intent'])
 
 for mecab_parse_item in mecab_parse_results:
     mecab_compound_idx = mecab_parse_item[1].mecab_compound
