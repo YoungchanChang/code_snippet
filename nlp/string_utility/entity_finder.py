@@ -6,23 +6,16 @@
 4. 부가 속성값 찾는다.
 """
 
-
 from mecab_parser import *
+from data_reader import extract_entity, read_attribute
 
+intent_main = {}
+for i in read_attribute(suffix="main"):
+    intent_main[eval(i[1])] = [(i[0], i[2].split("_")[0])]
 
-entity = {
-    "치킨": ["food", 'location']
-}
-
-intent = {
-    ('싶', 'VX'): [("food","싶다"), ('location', "싶다")],
-    ('괜찮', 'VA'): [("food","괜찮다"), ('location', "괜찮다")],
-}
-
-intent_sub = {
-    ('먹', 'VV'): [("food", "먹기가")],
-    ('가', 'VV'): [("location", "가기가")]
-}
+intent_sub = {}
+for i in read_attribute(suffix="sub"):
+    intent_sub[eval(i[1])] = [(i[0], i[2].split("_")[0])]
 
 intent_not = {
     ('안', 'MAG'): ('F', '안'),
@@ -36,26 +29,27 @@ intent_not = {
 }
 
 
-sample_item = "나는 치킨이 안 괜찮다"
+sample_item = "나는 팔이 아프다"
 mecab_parse_results = list(MecabParser(sentence=sample_item).gen_mecab_compound_token_feature())
 mecab_word = [(x[0], x[1].pos) for x in mecab_parse_results]
 
-
+entity_list = list(extract_entity(mecab_word))
 entity_attr_save = []
+
+
+for entity_item in entity_list:
+    entity_attr_save.append({
+        "category" : entity_item[1].split("_")[0],
+        "entity": entity_item[0],
+        "idx" : [entity_item[2], None],
+    })
+
 for mecab_parse_item in mecab_parse_results:
 
     mecab_compound_idx = mecab_parse_item[1].mecab_compound
     mecab_word = mecab_parse_item[0]
     word_pos = (mecab_word, mecab_parse_item[1].pos)
-    entity_val = entity.get(mecab_word, None)
 
-    if entity_val: # 엔티티 값 저장
-        for entity_cat_val in entity_val:
-            entity_attr_save.append({
-                "category" : entity_cat_val,
-                "entity": mecab_word,
-                "idx" : [mecab_compound_idx, None],
-            })
 
     intent_val = intent.get(word_pos, None)
     if intent_val: # 인텐트 값 저장
