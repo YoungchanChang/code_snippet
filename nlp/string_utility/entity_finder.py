@@ -5,17 +5,19 @@
 3. 부정 표현 찾는다.
 4. 부가 속성값 찾는다.
 """
+from collections import defaultdict
 
 from mecab_parser import *
 from data_reader import extract_entity, read_attribute
 
-intent_main = {}
+intent_main = defaultdict(list)
 for i in read_attribute(suffix="main"):
-    intent_main[eval(i[1])] = [(i[0], i[2].split("_")[0])]
 
-intent_sub = {}
+    intent_main[eval(i[1])].append((i[0], i[2].split("_")[0]))
+
+intent_sub = defaultdict(list)
 for i in read_attribute(suffix="sub"):
-    intent_sub[eval(i[1])] = [(i[0], i[2].split("_")[0])]
+    intent_sub[eval(i[1])].append((i[0], i[2].split("_")[0]))
 
 intent_not = {
     ('안', 'MAG'): ('F', '안'),
@@ -29,7 +31,7 @@ intent_not = {
 }
 
 
-sample_item = "나는 팔이 괜찮다"
+sample_item = "나는 팔이 너무 아프지 않다"
 mecab_parse_results = list(MecabParser(sentence=sample_item).gen_mecab_compound_token_feature())
 mecab_word = [(x[0], x[1].pos) for x in mecab_parse_results]
 
@@ -59,6 +61,14 @@ for mecab_parse_item in mecab_parse_results:
                 if (entity_cat == intent_cat_val[1]) and (entity_attr_dict.get('idx')[0] < mecab_compound_idx):
                     entity_attr_dict["intent"] = intent_cat_val[0]
                     entity_attr_dict['idx'][1] = mecab_compound_idx
+
+            if intent_cat_val[1] == "uncomfortable":
+                entity_attr_save.append({
+                    "category": "uncomfortable",
+                    "intent": intent_cat_val[0],
+                    "idx": [0, mecab_compound_idx],
+                })
+
 
 
 for mecab_parse_item in mecab_parse_results:
