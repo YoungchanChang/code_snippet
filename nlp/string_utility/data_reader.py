@@ -6,7 +6,7 @@ from nlp.string_utility.mecab_parser import mecab_word_finder, MecabParser
 FORBIDDEN_POS = ["JKS", "JKB", 'VCP']
 EOF = "EOF"
 
-DATA_PATH = Path(__file__).resolve().parent
+DATA_PATH = Path(__file__).resolve().parent.parent.joinpath("data", "mecab")
 
 
 def read_entity(path):
