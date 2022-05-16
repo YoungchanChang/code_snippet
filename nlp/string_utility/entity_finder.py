@@ -31,7 +31,7 @@ intent_not = {
 }
 
 
-sample_item = "나는 팔이 너무 아프지 않다"
+sample_item = "나는 팔이 아파서 병원에 갔어"
 mecab_parse_results = list(MecabParser(sentence=sample_item).gen_mecab_compound_token_feature())
 mecab_word = [(x[0], x[1].pos) for x in mecab_parse_results]
 
@@ -60,7 +60,8 @@ for mecab_parse_item in mecab_parse_results:
         for intent_cat_val in sorted(intent_val): # 2차원 배열 2중 탐색
             for entity_attr_dict in entity_attr_save:
                 entity_cat = entity_attr_dict.get('category', None) # 인텐트와 엔티티 값 검증 로직
-                if (entity_cat == intent_cat_val[1]) and (entity_attr_dict.get('idx')[0] < mecab_compound_idx):
+                intent_val = entity_attr_dict.get('intent', None)
+                if (entity_cat == intent_cat_val[1]) and (entity_attr_dict.get('idx')[0] < mecab_compound_idx) and (intent_val is None):
                     entity_attr_dict["intent"] = intent_cat_val[0]
                     entity_attr_dict['idx'][1] = mecab_compound_idx
                     flag = False
