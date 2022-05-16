@@ -145,6 +145,72 @@ Why the Funny Format?
 
 would create many more data structures that the Java Virtual Machine (JVM) would have to spend time garbage collecting.
 
+
+# Distributed Search Execution
+
+## Query Phase
+- broadcast to a shard copy
+- Each shard executes the search locally and builds a priority queue of matching documents.
+- Each shard returns the doc IDs and sort values of all the docs in its priority queue to the coordinating node,
+
+
+## Coordinating node
+- coordinating node. It is the job of this node to broadcast the search request to all involved shards, 
+- to gather their responses into a globally sorted result set that it can return to the client.
+- A coordinating node will round-robin through all shard copies on subsequent requests in order to spread the load.
+- Each shard executes the query locally and builds a sorted priority queue of length from + size
+- It returns a lightweight list of results to the coordinating node
+- a search request against a single index needs to be able to combine the results from multiple shards
+
+>>> ex) "나는 치킨이 먹고 싶어" => "나" "는" "치킨" "이" 먹" "고" 싶" "어"
+> 1. Priority Queue 만듬
+> 2. 각 샤드에서 "나"가 매칭되는 문서의 정보 반환, ID. 점수..
+> 3. 
+
+Results from multiple shards must be combined into a single sorted list
+builds a priority queue of matching documents.
+- 매칭되는 도큐먼트들에 대해서 prioirty queue 우선순위 큐를 만든다. max_hit [10, "doc_id"]
+
++ indexing됬을 때 어떻게 저장되고 있는 것이지?
+나 : 1, 2, 3, 5, 7
+는 : 1, 3, 5
+치킨 : 1
+또 다른 정보가 저장되어 있나?
+
+
+- own sorted priority queue
+
+
+# Document
+- root object that is serialized into JSON and stored in Elasticsearch under a unique ID.
+- Objects may contain other objects
+
+- all data in every field is indexed by default. That is, every field has a dedicated inverted index for fast retrieval.
+
+
+The query phase identifies `which documents satisfy the search request`, but we still need to retrieve the documents themselves.
+the coordinating node returns the results to the client.
+-  enriches the results with metadata and search snippet highlighting
+
+
+# Document Metadata
+
+- A document doesn’t consist only 
+
+
+
+-_type
+different categories of products, such as "electronics", "kitchen" and "lawn-care".
+
+- uniquely identifies a document in Elasticsearch.
+
+# Anaylsis 
+- This process of tokenization and normalization is called analysis, which we discuss in the next section.
+
+
+# Modeling Your Data
+
+
 # Shard question
 - what is it?
 - logical? physical?
