@@ -1,4 +1,4 @@
-from flask_factory.mvc.model import insert_values
+from flask_factory.simple_mvc.model import insert_values
 from model import UserInfo
 
 

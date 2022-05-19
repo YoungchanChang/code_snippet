@@ -3,7 +3,7 @@ from dacite import from_dict
 from flask import Blueprint, make_response, jsonify, request
 
 from model import UserInfo
-from flask_factory.mvc.control import sign_up, UserValueException
+from flask_factory.simple_mvc.control import sign_up, UserValueException
 
 from utility import SlackAlarm
 
@@ -40,7 +40,7 @@ def user_signup():
 
     except Exception as e:
         tf = traceback.format_exc()
-        SlackAlarm.send_slack_alarm("user-sentence-food", tf) # 슬랙 알람 or 로그
+        SlackAlarm.send_slack_alarm("user_info", tf) # 슬랙 알람 or 로그
         return_json['message_detail'] = tf
         return make_response(jsonify(return_json), 500)
 
