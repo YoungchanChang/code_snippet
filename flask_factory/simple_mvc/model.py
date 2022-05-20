@@ -36,10 +36,9 @@ def insert_values(user_name, user_email):
     with test_db_conn.cursor() as cursor:
         TABLE = "user_db"
         sql = f"INSERT INTO {TABLE} (user_name, user_email) VALUES ('{user_name}', '{user_email}');"
-        cursor.fetchall(sql)
+        cursor.execute(sql)
         results = test_db_conn.affected_rows()
-
-    test_db_conn.close()
+    test_db_conn.commit()
     return results
 
 
