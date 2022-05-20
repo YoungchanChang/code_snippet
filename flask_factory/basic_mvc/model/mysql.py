@@ -1,10 +1,10 @@
 import pymysql
-from flask_factory.basic_mvc.model import config_db
+from config import config_db
 
 
 def get_connection():
     MYSQL_CONN = pymysql.connect(
-        **config_db.TEST_DB_INFO
+        **config_db.get_dev_op()
     )
     if not MYSQL_CONN.open:
         MYSQL_CONN.ping(reconnect=True)
