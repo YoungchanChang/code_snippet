@@ -1,0 +1,17 @@
+version: '3.5'
+services:
+  flask_factory:
+    build: .
+    container_name: flask_factory
+    image: flask_factory:v1
+    volumes:
+      - /etc/localtime:/etc/localtime
+    ports:
+      - '8080:8080'
+    networks:
+      - flask_factory
+
+networks:
+  flask_factory:
+    name: flask_factory-net
+    driver: bridge
