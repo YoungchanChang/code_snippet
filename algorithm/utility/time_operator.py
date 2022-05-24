@@ -22,6 +22,10 @@ def str_to_time():
     return time_date, time_date_until_day
 
 
+def get_date():
+    day_list = ["월요일", "화요일", "수요일", "목요일", "금요일", "토요일", "일요일"]
+    return day_list[datetime.now().timetuple().tm_wday]
+
 def time_to_str():
     """시간을 문자열로 변환"""
     time_str = "2016-09-15 01:00:04.001"
