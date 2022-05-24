@@ -5,25 +5,15 @@ wait_timeout : https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.h
 """
 
 import time
-import pymysql
-from sqlalchemy import create_engine
+
 from sqlalchemy.orm import Session
-from database.mysql import config_db
 from faker import Faker
 
-user_analyzed_engine = create_engine(f'mysql://{config_db.TEST_DB_INFO.get("user")}:{config_db.TEST_DB_INFO.get("password")}@{config_db.TEST_DB_INFO.get("host")}:{config_db.TEST_DB_INFO.get("port")}/{config_db.TEST_DB_INFO.get("db")}', convert_unicode=False, pool_size=20, pool_recycle=500, max_overflow=20)
+from database.mysql.conn import *
 
 fake = Faker()
 
-
-def get_connection():
-    MYSQL_CONN = pymysql.connect(
-        **config_db.TEST_DB_INFO
-    )
-    if not MYSQL_CONN.open:
-        MYSQL_CONN.ping(reconnect=True)
-
-    return MYSQL_CONN
+TEST_DB_INFO = config_db.get_dev_op()
 
 
 def create_user_by_single_conn(name: str, email: str):
