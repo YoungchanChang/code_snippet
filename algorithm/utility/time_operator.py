@@ -9,7 +9,11 @@
 """
 
 from datetime import datetime, timedelta, date, time
+from dateutil.relativedelta import relativedelta
 
+
+YESTERDAY = -1
+THIRTY_MINUTES = -30
 
 def str_to_time():
     """문자열을 시간으로 변환"""
@@ -23,8 +27,20 @@ def str_to_time():
 
 
 def get_date():
+    """요일 구할 때 사용"""
     day_list = ["월요일", "화요일", "수요일", "목요일", "금요일", "토요일", "일요일"]
     return day_list[datetime.now().timetuple().tm_wday]
+
+
+def get_thirty_before():
+    """30분 전 시간 구하기"""
+    return (datetime.now() + relativedelta(minutes=THIRTY_MINUTES)).strftime('%Y-%m-%d %H:%M:%S')
+
+
+def get_now_time():
+    """현재 시간 구하가"""
+    return (datetime.now()).strftime('%Y-%m-%d %H:%M:%S')
+
 
 def time_to_str():
     """시간을 문자열로 변환"""
