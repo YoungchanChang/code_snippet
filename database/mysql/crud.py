@@ -11,3 +11,12 @@ def insert_ignore(data):
         conn.commit()
     conn.close()
 
+def SELECT_DATA(customerCode):
+    conn = get_user_info_conn()
+    TABLE = f"USER_{customerCode}"
+    with conn.cursor() as cursor:
+        SELECT_QUERY = f"SELECT co1, col2, col3 FROM {TABLE} WHERE A = 'B'"
+        cursor.execute(SELECT_QUERY)
+        sql_data = cursor.fetchall()
+
+        return sql_data
