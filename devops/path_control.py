@@ -35,3 +35,13 @@ for (path, dir, files) in os.walk("c:/"):
 for i in Path.iterdir(BASE_DIR_PATH):
     if i.suffix == ".py":
        print("%s/%s" % (i.parent, i.name))
+
+# - Path 추가하는 로직
+
+# dev, op에 따른 운영 정보 ------------------------------------------------------------------------------------
+import os, sys
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+PARENT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(BASE_DIR)
+sys.path.append(PARENT_DIR)
+# ---------------------------------------------------------------------------------------------------------
