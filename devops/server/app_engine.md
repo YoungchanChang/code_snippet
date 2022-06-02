@@ -34,3 +34,29 @@ $ docker pull gcr.io/<dir>/<app-name>:v1
 # Tip
 - 포인트는 <dir>이 저장소로 쓰인다는 점
 - 이름을 제대로 설정해야한다.
+
+
+# 앱엔진 도커파일 예시
+# 이미지를 만들어 둔다.
+FROM gcr.io/<dir>/appengine:<app-name>-v1
+
+RUN sudo apt update -y
+
+
+RUN mkdir /usr/local/<dir>
+COPY src/ /usr/local/<dir>/src
+COPY app.py /usr/local/<dir>
+COPY requirements.txt /usr/local/<dir>
+WORKDIR /usr/local/<dir>
+
+# utf-8 
+RUN apt-get install -y locales
+RUN locale-gen ko_KR.UTF-8
+ENV LANG en_US.UTF-8
+ENV PYTHONIOENCODING=UTF-8
+
+RUN pip install -r requirements.txt
+CMD gunicorn -b :$PORT app:app -w 3 --threads 3
+
+# 타임존
+RUN ln -sf /usr/share/zoneinfo/Asia/Seoul /etc/localtime
