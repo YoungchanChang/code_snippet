@@ -1,0 +1,22 @@
+version: '2'
+services:
+  logstash:
+    container_name: logstash_docker_yc
+    build: .
+    image: logstash:v2
+    ports:
+      - 9601:9601
+    restart: always
+    networks:
+      - elastic_net
+
+# volumes를 쓰면 docker를 내렸다가 올려도 정보가 유지된다.
+volumes:
+  elastic_data:
+    driver: local
+
+networks:
+  elastic_net:
+    name: elastic_net
+    driver: bridge
+
