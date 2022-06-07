@@ -19,9 +19,6 @@ volumes:
     driver: local
 
 networks:
-  parlai_net:
-    name: parlai_net
-    driver: bridge
 
   elastic_net:
     name: elastic_net
