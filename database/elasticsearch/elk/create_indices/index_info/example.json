@@ -1,0 +1,53 @@
+{
+    "settings": {
+        "index": {
+            "analysis": {
+                "analyzer": {
+                    "nori_analyzer": {
+                        "type": "custom",
+                        "tokenizer": "nori_tokenizer",
+                        "filter": []
+                    }
+                },
+                "tokenizer": {
+                    "nor_custom_tokenizer": {
+                        "type": "nori_tokenizer",
+                        "user_dictionary": "analysis/nori_custom_dictionary.txt"
+                    }
+                },
+                "filter": {
+                    "wiki_synonym_filter": {
+                        "type": "synonym",
+                        "synonyms_path": "analysis/nori_custom_synonym.txt"
+                    },
+                    "part_of_speech_stop_title": {
+                        "type": "nori_part_of_speech",
+                        "stoptags": [ ]
+                    }
+                }
+            }
+        }
+    },
+    "mappings": {
+        "properties": {
+            "idx": {
+                "type": "integer"
+            },
+            "KEYWORD_FIELD": {
+                "type": "keyword"
+            },
+            "TEXT_FIELD": {
+                "type": "text",
+                "analyzer": "nori_analyzer",
+                "fields": {
+                    "keyword": {
+                        "type": "keyword"
+                    }
+                }
+            },
+            "DATE_FIELD": {
+                "type": "date"
+            }
+        }
+    }
+}

@@ -1,0 +1,106 @@
+{
+    "settings": {
+        "index": {
+            "analysis": {
+                "analyzer": {
+                    "nori_analyzer": {
+                        "type": "custom",
+                        "tokenizer": "nori_tokenizer"
+                    },
+                    "info_analyzer": {
+                        "type": "custom",
+                        "tokenizer": "nori_tokenizer",
+                        "filter": [
+                            "part_of_speech_stop"
+                        ]
+                    }
+                },
+                "tokenizer": {
+                    "wiki_dict_tokenizer": {
+                        "type": "nori_tokenizer",
+                        "user_dictionary": "analysis/wiki_dictionary.txt"
+                    }
+                },
+                "filter": {
+                    "wiki_synonym_filter": {
+                    },
+                    "wiki_search_synonym_filter": {
+                        "type": "synonym",
+                        "synonyms_path": "analysis/wiki_search_synonym.txt"
+                    }
+                    , "part_of_speech_stop": {
+                        "type": "nori_part_of_speech",
+                        "stoptags": [
+                            "VV",
+                            "VX",
+                            "VCP",
+                            "VCN",
+
+                            "MM",
+                            "MAG",
+                            "MAJ",
+
+                            "IC",
+                            "J",
+                            "E",
+
+                            "XPN",
+                            "XSN",
+                            "XSV",
+                            "XSA",
+
+                            "SF",
+                            "SE",
+                            "SSO",
+                            "SSC",
+                            "SC",
+                            "SP",
+                            "SY",
+
+                            "VSV",
+
+                            "NP"
+                        ]
+                    }
+                }
+            }
+        }
+    },
+    "mappings": {
+        "properties": {
+            "idx": {
+                "type": "integer"
+            },
+            "conversation_idx": {
+                "type": "integer"
+            },
+            "text": {
+                "type": "text",
+                "analyzer": "nori_analyzer",
+                "fields": {
+                    "keyword": {
+                        "type": "keyword"
+                    }
+                }
+            },
+            "keyword": {
+                "type": "keyword"
+            },
+            "app_hint": {
+                "type": "text",
+                "analyzer": "nori_analyzer",
+                "fields": {
+                    "keyword": {
+                        "type": "keyword"
+                    }
+                }
+            },
+            "time": {
+                "type": "date"
+            },
+            "registration_time": {
+                "type": "date"
+            }
+        }
+    }
+}

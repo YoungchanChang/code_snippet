@@ -1,0 +1,10 @@
+{
+    "_source": ["genre", "answer_list", "answer_id_sub"],
+    "query": {
+        "bool": {
+            "must": [ ],
+            "should": [ ]
+        }
+    },
+    "explain": "true"
+}
