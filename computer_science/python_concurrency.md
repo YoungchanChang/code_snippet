@@ -39,7 +39,54 @@ thread가 process내에서 "독립적인 기능을 실행”한다는 것은 "�
 
 # asyncio
 비동기 표준 라이브러리(python 3.4 -)
-asyncio(Asynchronous I/O)는 비동기 프로그래밍을 위한 모듈이며 CPU 작업과 I/O를 병렬로 처리하게 해줍니다.
+asyncio(Asynchronous I/O)는 비동기 프로그래밍을 위한 모듈이며 `CPU 작업과 I/O를 병렬로 처리`하게 해줍니다.
+- CPU 바운드는 문제를 CPU가 처리한다. I/O 바운드는 `외부의 입력과 출력이 이루어지는 일련의 과정`을 의미한다.
+- 쓰레드로 I/O 바운드로 처리하면, 더 빠르게 처리할 수 있다.
+- https://tech.ssut.me/python-3-play-with-asyncio/
+
+- Non-blocking IO
+- 시스템 콜 요청시 -> 커널 IO 작업 완료 여부 상관없이 즉시 응답
+- 다른 작업이 지속적으로 수행이 가능함.
+
+Async: IO 작업 완료 여부에 대한 Noty는 커널(호출되는 함수) -> 유저 프로세스(호출하는 함수)
+Sync : IO 작업 완료 여부에 대한 Noty는 유저프로세스(호출하는 함수) -> 커널(호출되는 함수)
+
+- I/O bound
+- 파일쓰기, 디스크 작업, 네트워크 통신, 시리얼 포트 송수신 -> 작업에 의해서 병목(수행시간)이 결정
+
+- Multiprocessing : Multiple processes, 고가용성 utilization -> CPU-Bound -> 10개의 부엌, 요리사, 10개의 요리
+- Threading : Single process, Multiple threads, OS decides task switching -> 1개의 부엌, 10명의 요리사, 10개 요리
+- AsyncIO : Single Process, single thread, cooperative multitasking, tasksk cooperatively decide switcing -> Slow I/O-Bound -> 1개 부엌, 1개 요리사, 10개 요리
+
+
+CPU연산, DB연동, API 호출시 대기 시간 늘어남 -> 
+-> await을 붙어서 반환한다.
+
+
+# Coroutine 코루틴
+- 단일(싱글) 스레드, `스택`을 기반으로 동작하는 비동기 작업
+- 서브루틴 : 메인 루틴에서 호출(함수 수행) -> 서브루틴에서 수행(흐름 제어)
+- 코루틴 : 루틴 실행 중 중지 -> 동시성 프로그래밍
+- 코루틴 : 쓰레드에 비해 `오버헤드` 감소
+- 멀티쓰레드 -> 공유되는 자원(코드, 데이터, 힙) -> `데드락, 교착상태`가 발생될 수 있다. `컨텍스트 스위칭 비용`이 크다.
+- 1번 스위칭이 2번에다가 전달한다.
+
+
+# 컨텍스트 스위칭 어떻게 함?
+- mutex, semaphore 기법
+- process간의 통신(IPC)보다 thread간의 통신 비용이 적기 때문에 통신으로 인한 오버헤드가 적다.
+- 실행중인 상태 저장 후 다른 프로세스로 저장. PCB에 저장 후 다시 불러일으킨다.
+
+
+# Futures 동시성
+
+- 비동기 작업 처리
+- 지연시간(Block) CPU 및 리소스 낭비 방지 -> (File)Network I/O 관련 작업 -> 동시성 활용 권장.
+- 비동기 작업과 적합한 프로그램일 경우 압도적으로 성능 향
+- 스택 영역을 제외한 영역은 모두 공유. 오버헤드가 작다.
+
+
+
 
 # Why use?
 함수가 종료되지 않은 상태에서 메인 루틴의 코드를 실행한 뒤 다시 돌아와서 코루틴의 코드를 실행
@@ -49,3 +96,29 @@ asyncio(Asynchronous I/O)는 비동기 프로그래밍을 위한 모듈이며 CP
 > 참조(인도 아저씨 유튜브) : https://www.youtube.com/watch?v=arxWaw-E8QQ
 > 참조(블로그) : https://leemoney93.tistory.com/25
 > 인프런 lv4
+> 
+
+
+# ㄹfalcon
+https://codeahoy.com/compare/fastapi-vs-falcon
+- minimalist ASGI framework
+- ASGI/WSGI
+- Native asyncio support
+- Falcon is a minimalist WSGI library for building web APIs, app backends and microservices.
+
+
+# Django
+- NoSQL database (like Couchbase, MongoDB, Cassandra, etc) as the main store engine is not very easy.
+
+# flask
+- "microframework" that could be extended to cover exactly what is needed was a key feature that I wanted to keep.
+
+# flacon
+- declare request parameters and bodies with standard Python type hints as function parameters.
+- So, data validation, serialization, and documentation, have to be done in code, not automatically.
+
+
+
+
+
+
